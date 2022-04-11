@@ -1,0 +1,82 @@
+﻿<html>
+    <head>
+        <title>Secure Design</title>
+        <script src="http://code.jquery.com/jquery-3.6.0.min.js" ></script>
+        <script type="text/javascript">
+        $(document).ready(function(){
+            var token;
+
+            // SMS 문자를 보내서 인증을 받은 후 히든필드를 업데이트 한다
+            $("[id^=checkSMS]").click(function() {
+                var sms_number = $("#SMSNumber").val();
+                $.ajax({
+                    url : '/check_sms',
+                    type : 'POST',
+                    data: JSON.stringify({sms_number: sms_number}),
+                    headers: {'Content-Type': 'application/json'},
+                    success: function(response){
+                        if(response.certify_yn == "Y"){
+                            $("#smsResult").css("background-color","#c1d9d8");
+                            $("#smsResult").html("인증완료");
+                            $("#SMSNumber").attr("disabled","disabled");
+                            $("#checkData").attr("disabled","disabled");
+                            $("#isCert").val("Y");
+                        }
+                        else{
+                            $("#smsResult").css("background-color","#c1d9d8");
+                            $("#smsResult").html("다시 입력해 주세요");
+                        }
+                    }
+                });
+
+            });
+
+            // SMS 인증을 받았는지 히든 필드를 체크한 후 결제를 진행 한다
+            $("[id^=doPayment]").click(function() {
+                var isCertified = $("#isCert").val();
+
+                if(isCertified != "Y")
+                {
+                    alert("SMS 인증을 먼저 받으세요");
+                    return false;
+                }
+
+                var price = $("#price").val();
+
+                $.ajax({
+                    url : '/do_payment',
+                    type : 'POST',
+                    data: JSON.stringify({item_price: price}),
+                    headers: {'Content-Type': 'application/json'},
+                    success: function(response){
+                        if(response.payment_result == "Y"){
+                            $("#paymentResult").html("결제 완료");
+                            $("#paymentResult").css("background-color","cyan");
+                        }
+                        else{
+                            $("#paymentResult").html("결제 실패");
+                            $("#paymentResult").css("background-color","cyan");
+                        }
+                    }
+                });
+            });
+        });
+
+        </script>
+    </head>
+    <body>
+        <fieldset>
+            <legend>보안 설계</legend>
+            <input type="text" id="SMSNumber">
+            <input type="button" id="checkSMS" value="인증 번호 체크">
+            <br>
+            <span id="smsResult"></span>
+            <input type="hidden" id="isCert" value="N">
+            <br>
+            <input type="text" id="price" value="1000">
+            <input type="button" id="doPayment" value="결제하기">
+            <br>
+            <span id="paymentResult"></span>
+        </fieldset>
+    </body>
+</html>

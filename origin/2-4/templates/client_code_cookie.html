@@ -1,0 +1,30 @@
+﻿<html>
+    <head>
+        <script src="http://code.jquery.com/jquery-3.6.0.min.js" ></script>      
+        <script type="text/javascript">
+            $(document).ready(function(){
+                cookie_text = "{{cookie_text}}";
+                get_cookie = "당신의 쿠키는: " + "{{get_cookie}}";
+                $("#inputText").val(cookie_text);
+                $("#result").html(get_cookie);
+            });
+        </script>
+        <title>쿠키 만들기</title>
+</head>
+    <body>
+        <form id = "setCookie" action = "set_cookie" method = "post">
+            <fieldset>
+                <legend>쿠키 만들기</legend>
+                쿠키 값:
+                <input type="text" id="inputText" name="inputText">
+                <input type="submit" name="button" value="쿠키 만들기">
+            </fieldset>
+        </form>
+    
+    
+        <h4>생성된 쿠키</h4>
+        <hr>
+        <div id ="result"> </div>
+
+    </body>
+</html>

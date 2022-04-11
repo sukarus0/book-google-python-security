@@ -1,0 +1,61 @@
+﻿<html>
+    <head>
+        <style>
+            table, td, th {
+                border: 1px solid black;
+                text-align: center;
+            }
+      
+            table {
+                border-collapse: collapse;
+            }
+        </style>
+        <script src="http://code.jquery.com/jquery-3.6.0.min.js" ></script>      
+        <script type="text/javascript">
+            $(document).ready(function(){
+
+            var search_text;
+            search_text = "{{search_text}}";
+            sql_query = "{{sql_query}}";
+            $("#searchText").val(search_text);
+            $("#query").html(sql_query)
+            });
+        </script>
+        <title>Item Search</title>
+</head>
+    <body>
+        <form id = "itemSearch" action = "item_search" method = "post">
+            <fieldset>
+                <legend>SQL Injection 실습</legend>
+                검색 조건:
+                <input type="text" id="searchText" name="searchText">
+                <input type="submit" name="button" value="조회">
+            </fieldset>
+        </form>
+    
+    
+        <h3>사용되는 SQL 쿼리 보기</h3>
+        <div id ="query"> </div>
+        <hr>
+
+        <table>
+            <thead>
+                <th>회원아이디</th>
+                <th>구매물품</th>
+                <th>구매수량</th>
+                <th>구매일</th>
+                <th>구매단가</th>
+                <th>총구매금액</th>
+            </thead>     
+            <tbody>
+            {% for row in rows %}
+                <tr id=rows{{loop.index}}>
+                {% for data in row %}
+                    <td id=data{{loop.index}}>{{data}}</td>
+                {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>

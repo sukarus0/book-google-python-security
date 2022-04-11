@@ -1,0 +1,62 @@
+﻿<html>
+    <head>
+        <style>
+            span {
+                background-color: #c1d9d8;
+            }
+        </style>
+        <title>API with token</title>
+        <script src="http://code.jquery.com/jquery-3.6.0.min.js" ></script>
+        <script type="text/javascript">
+        $(document).ready(function(){
+            var token;
+
+            // 텍스트 박스에 입력된 값을 전송하여 토큰을 얻어옴
+            $("[id^=getToken]").click(function() {
+                var myName = $("#inputText").val()
+                $.ajax({
+                    url : '/make_token',
+                    type : 'POST',
+                    data: JSON.stringify({my_name: myName}),
+                    headers: {'Content-Type': 'application/json'},
+                    success: function(response){
+                        token = response.token
+                        $("#span1").html(response.token);
+                    }
+                });
+
+            });
+
+            // 헤더의 Authorization 항목에 토큰을 넣어 내부의 sub 값을 얻어옴
+            $("[id^=sendToken]").click(function() {
+                var myName = $("#inputText").val()
+                $.ajax({
+                    url : '/send_token',
+                    type : 'POST',
+                    data: JSON.stringify({my_name: myName}),
+                    headers: {'Content-Type': 'application/json'},
+                    headers: {Authorization: 'Bearer '+token},
+                    success: function(response){
+                        $("#span2").html(response.my_name);
+                    }
+                });
+
+            });
+
+        });
+
+        </script>
+    </head>
+    <body>
+        <fieldset>
+            <legend>API 토큰</legend>
+            <input type="text" id="inputText" name="inputText">
+            <input type="button" align="left" id="getToken" value="토큰 얻기">
+            <input type="button" align="left" id="sendToken" value="토큰 보내기">
+            <br>
+            <span id="span1"></span>
+            <br><br>
+            <span id="span2"></span>
+        </fieldset>
+    </body>
+</html>

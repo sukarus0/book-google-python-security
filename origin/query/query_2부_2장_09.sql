@@ -1,0 +1,1 @@
+select * from escape_test(nolock)

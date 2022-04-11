@@ -1,0 +1,47 @@
+﻿<html>
+    <head>
+        <style>
+            table, td, th {
+                border: 1px solid black;
+                text-align: center;
+            }
+            table {
+                border-collapse: collapse;
+            }
+        </style>
+        <script src="http://code.jquery.com/jquery-3.6.0.min.js" ></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                var search_text;
+                convert_text = "{{convert_text|safe}}";
+                convert_result = "{{convert_result|safe}}";
+                method_type = "{{method_type}}";
+                $("#inputText").val(convert_text);
+                $("#convert_select").val(method_type).prop("selected", true);
+                $("#result").html(convert_result);
+            });
+        </script>
+        <title>Enc/Dec</title>
+    </head>
+    <body>
+        <form id = "convertText" action = "encoding" method = "post">
+            <fieldset>
+                <legend>암호화 실습</legend>
+                <select name="convert_select" id="convert_select">
+                    <option value="encode">인코드</option>
+                    <option value="decode">디코드</option>
+                </select>
+                &nbsp;
+                변환 대상:
+                <input type="text" id="inputText" name="inputText">
+                <input type="submit" name="button"  value="변환">
+            </fieldset>
+        </form>
+    
+    
+        <h4>변환 결과</h4>
+        <hr>
+        <div id ="result"> </div>
+
+    </body>
+</html>

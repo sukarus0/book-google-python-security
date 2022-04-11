@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Exam Monitoring</title>
+</head>
+<body>
+    <div class="chart" id="linegraph">
+        <script>
+            var graphs = {{plot|safe}};
+            var layout = {
+                autosize: false,
+                width: 600,
+                height: 400,
+            };
+            Plotly.newPlot('linegraph', graphs, layout);
+        </script>
+    </div>
+</body>
+</html>
